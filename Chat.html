@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>دردشة Cohere</title>
+</head>
+<body>
+  <h1>تجربة دردشة مع الذكاء الاصطناعي</h1>
+  <input type="text" id="userInput" placeholder="اكتب رسالتك">
+  <button onclick="sendMessage()">أرسل</button>
+  <pre id="responseArea"></pre>
+
+  <script>
+    async function sendMessage() {
+      const userMessage = document.getElementById("userInput").value;
+      const responseArea = document.getElementById("responseArea");
+
+      const res = await fetch("https://api.cohere.ai/v1/chat", {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer bj4S2kaYohlDnz39AwV8NcCArpVNV4p7lgNKVGAY",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: userMessage
+        })
+      });
+
+      const data = await res.json();
+      if (data.text) {
+        responseArea.textContent = "الذكاء: " + data.text;
+      } else {
+        responseArea.textContent = "لم يصل رد أو يوجد خطأ: " + JSON.stringify(data);
+      }
+    }
+  </script>
+</body>
+</html>
